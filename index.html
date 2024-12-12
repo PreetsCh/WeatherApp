@@ -5,12 +5,35 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
     <title>Moti</title>
 </head>
 
 
 <body>
-    <h1>Weather App</h1>
+    <div class="weather-app">
+        <header>
+            <form id="search-form">
+                <input type="search" placeholder="Enter a city.." required class="search-input" id="search-input" />
+                <input type="submit" value="Search" class="search-button" />
+            </form>
+        </header>
+        <main>
+            <div class="current-weather">
+                <div>
+                    <h1 class="current-city" id="current-city">Prishtina</h1>
+                    <p class="current-details">
+                        <span id="current-date"></span> Moderate rain <br />
+                        Humidity: <strong>87%</strong>, Wind: <strong>7.2km/h</strong>
+                    </p>
+                </div>
+                <div class="current-temperature">
+                    <span class="current-temperature-icon">☀️</span><span class="current-temperature-value"
+                        id="current-temperature">24</span><span class="current-temperature-unit">°C</span>
+                </div>
+            </div>
+        </main>
+
 
     <footer>
         <p>
