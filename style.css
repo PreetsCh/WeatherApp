@@ -106,17 +106,14 @@ footer {
 
     color: rgba(39, 33, 66, 0.4);
 }
-h1 {
-    text-align: center;
-    width: 100%;
-}
+
 
 
  .weather-forecast {
      display: flex;
+     flex-direction:row;
      justify-content: space-around;
      align-items: center;
-     flex-wrap: wrap;
      gap: 20px;
      padding: 20px;
      background-color: #f4f4f4;
@@ -130,6 +127,9 @@ h1 {
      padding: 10px;
      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
      width: 100px;
+     display: flex;
+    flex-direction: column;
+    align-items: center;
  }
 
  .forecast-day img {
