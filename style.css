@@ -110,3 +110,32 @@ h1 {
     text-align: center;
     width: 100%;
 }
+
+
+ .weather-forecast {
+     display: flex;
+     justify-content: space-around;
+     align-items: center;
+     flex-wrap: wrap;
+     gap: 20px;
+     padding: 20px;
+     background-color: #f4f4f4;
+ }
+
+ .forecast-day {
+     text-align: center;
+     background: #fff;
+     border: 1px solid #ddd;
+     border-radius: 8px;
+     padding: 10px;
+     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+     width: 100px;
+ }
+
+ .forecast-day img {
+     margin: 10px 0;
+ }
+
+ .forecast-temperatures span {
+     display: block;
+ }
