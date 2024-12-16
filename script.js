@@ -13,6 +13,7 @@ function displayTemperature(response) {
         Humidity: <strong>${response.data.temperature.humidity}%</strong>, 
         Wind: <strong>${response.data.wind.speed}km/h</strong>
     `;
+     updateForecastDays();
 }
 
 function search(event) {
@@ -66,6 +67,25 @@ function loadDefaultWeather() {
         .catch(error => {
             console.error("Error fetching default weather data:", error);
         });
+}
+
+function updateForecastDays() {
+    let today = new Date();
+    let currentDay = today.getDay(); 
+
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  
+    let forecastDays = [
+        ...days.slice(currentDay), 
+        ...days.slice(0, currentDay)
+    ];
+
+ 
+    const forecastDayElements = document.querySelectorAll(".forecast-day .forecast-date");
+    forecastDayElements.forEach((dayElement, index) => {
+        dayElement.textContent = forecastDays[index];
+    });
 }
 
 loadDefaultWeather();
