@@ -1,5 +1,14 @@
 body {
    font-family: "Roboto", sans-serif;
+    background:url("https://t4.ftcdn.net/jpg/02/66/38/15/360_F_266381525_alVrbw15u5EjhIpoqqa1eI5ghSf7hpz7.jpg");
+    display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f4f4f4;
+        font-family: Arial, sans-serif;
+
 }
 
 a {
@@ -7,7 +16,7 @@ a {
 }
 
 .weather-app {
-    background:url(https://t4.ftcdn.net/jpg/02/66/38/15/240_F_266381525_alVrbw15u5EjhIpoqqa1eI5ghSf7hpz7.jpg);
+    background:white;
     max-width: 600px;
     margin: 60px auto;
     padding: 30px;
