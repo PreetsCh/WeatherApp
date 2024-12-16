@@ -106,3 +106,7 @@ footer {
 
     color: rgba(39, 33, 66, 0.4);
 }
+h1 {
+    text-align: center;
+    width: 100%;
+}
