@@ -7,7 +7,7 @@ function displayTemperature(response) {
     let cityElement = document.querySelector("#current-city");
     cityElement.innerHTML = response.data.city;
 
-    let detailsElement = document.querySelector(".current-temperature");
+    let detailsElement = document.querySelector(".current-temperatu");
     detailsElement.innerHTML = `
         ${formatDate(new Date())}, ${response.data.condition.description} <br />
         Humidity: <strong>${response.data.temperature.humidity}%</strong>, 
@@ -77,19 +77,19 @@ function loadDefaultWeather() {
 function updateForecastDays() {
     let today = new Date();
     let currentDay = today.getDay(); 
-
     const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   
-    let forecastDays = [
-        ...days.slice(currentDay), 
-        ...days.slice(0, currentDay)
+     const forecastDays = [
+        ...days.slice(currentDay), // Days from today onward
+        ...days.slice(0, currentDay), // Wrap around to the start of the week
     ];
+
 
  
     const forecastDayElements = document.querySelectorAll(".forecast-day .forecast-date");
     forecastDayElements.forEach((dayElement, index) => {
-        dayElement.textContent = forecastDays[index];
+      dayElement.textContent = forecastDays[index % 7];
     });
 }
 
