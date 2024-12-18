@@ -7,11 +7,12 @@ function displayTemperature(response) {
     let cityElement = document.querySelector("#current-city");
     cityElement.innerHTML = response.data.city;
 
-    let detailsElement = document.querySelector(".current-details");
+     let detailsElement = document.querySelector(".current-details");
     detailsElement.innerHTML = `
-        ${formatDate(new Date())}, ${response.data.condition.description} <br />
-        Humidity: <strong>${response.data.temperature.humidity}%</strong>, 
-        Wind: <strong>${response.data.wind.speed} km/h</strong>
+        <span id="current-date">${formatDate(new Date())}</span>, 
+        <span id="weather-description">${response.data.condition.description}</span> <br />
+        Humidity: <strong id="humidity">${response.data.temperature.humidity}%</strong>, 
+        Wind: <strong id="wind-speed">${response.data.wind.speed} km/h</strong>
     `;
 
     let iconElement = document.querySelector("#icon");
