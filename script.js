@@ -1,20 +1,18 @@
 let apiKey = "8fbf7bbacd67ca6b5t4o3f620d474a76";
 
 function displayTemperature(response) {
-
     let temperatureElement = document.querySelector("#current-temperature");
     temperatureElement.innerHTML = Math.round(response.data.temperature.current);
 
     let cityElement = document.querySelector("#current-city");
     cityElement.innerHTML = response.data.city;
 
-    let detailsElement = document.querySelector(".current-temperature");
+    let detailsElement = document.querySelector(".current-details");
     detailsElement.innerHTML = `
         ${formatDate(new Date())}, ${response.data.condition.description} <br />
         Humidity: <strong>${response.data.temperature.humidity}%</strong>, 
-        Wind: <strong>${response.data.wind.speed}km/h</strong>
+        Wind: <strong>${response.data.wind.speed} km/h</strong>
     `;
-
 
     let iconElement = document.querySelector("#icon");
     iconElement.innerHTML = `<img src="${response.data.condition.icon_url.replace('http:', 'https:')}" 
@@ -59,11 +57,6 @@ function fetchWeatherData(city) {
 
     axios.get(currentWeatherUrl).then(displayTemperature).catch(handleError);
     axios.get(forecastWeatherUrl).then(displayForecast).catch(handleError);
-}
-
-function handleError(error) {
-    console.error("Error fetching weather data:", error);
-    alert("Unable to fetch weather data. Please try again.");
 }
 
 function formatDate(date) {
