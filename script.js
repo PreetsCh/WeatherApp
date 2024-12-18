@@ -7,90 +7,90 @@ function displayTemperature(response) {
     let cityElement = document.querySelector("#current-city");
     cityElement.innerHTML = response.data.city;
 
-    let detailsElement = document.querySelector(".current-temperatur");
+    let detailsElement = document.querySelector(".current-details");
     detailsElement.innerHTML = `
         ${formatDate(new Date())}, ${response.data.condition.description} <br />
         Humidity: <strong>${response.data.temperature.humidity}%</strong>, 
-        Wind: <strong>${response.data.wind.speed}km/h</strong>
+        Wind: <strong>${response.data.wind.speed} km/h</strong>
     `;
 
     let iconElement = document.querySelector("#icon");
-    iconElement.innerHTML = `<img src="${response.data.condition.icon.url}" class="current-temperature">`;
-    
-    updateForecastDays();
+    iconElement.innerHTML = `<img src="${response.data.condition.icon_url.replace('http:', 'https:')}" 
+        alt="${response.data.condition.description}" 
+        width="100">`;
+}
+
+function displayForecast(response) {
+    let forecastElement = document.querySelector("#forecast");
+    let dailyForecasts = response.data.daily;
+    let forecastHTML = "";
+
+    dailyForecasts.forEach((day, index) => {
+        if (index < 6) {
+            forecastHTML += `
+                <div class="forecast-day">
+                    <div class="forecast-date">${formatDay(day.time)}</div>
+                    <img src="${day.condition.icon_url.replace('http:', 'https:')}" 
+                        alt="${day.condition.description}" 
+                        width="42">
+                    <div class="forecast-temperatures">
+                        <span class="forecast-temperature-max">${Math.round(day.temperature.maximum)}°</span>
+                        <span class="forecast-temperature-min">${Math.round(day.temperature.minimum)}°</span>
+                    </div>
+                </div>`;
+        }
+    });
+
+    forecastElement.innerHTML = forecastHTML;
 }
 
 function search(event) {
     event.preventDefault();
     let searchInputElement = document.querySelector("#search-input");
     let city = searchInputElement.value;
-    let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
-    
-    axios.get(apiUrl)
-        .then(displayTemperature)
-        .catch(error => {
-            console.error("Error fetching weather data:", error);
-            alert("Unable to fetch weather data. Please try again.");
-        });
+    fetchWeatherData(city);
+}
+
+function fetchWeatherData(city) {
+    let currentWeatherUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
+    let forecastWeatherUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&units=metric`;
+
+    axios.get(currentWeatherUrl).then(displayTemperature).catch(handleError);
+    axios.get(forecastWeatherUrl).then(displayForecast).catch(handleError);
+}
+
+function handleError(error) {
+    console.error("Error fetching weather data:", error);
+    alert("Unable to fetch weather data. Please try again.");
 }
 
 function formatDate(date) {
     let minutes = date.getMinutes();
     let hours = date.getHours();
     let day = date.getDay();
-    
+
     if (minutes < 10) {
         minutes = `0${minutes}`;
     }
     if (hours < 10) {
         hours = `0${hours}`;
     }
-    
-    let days = [
-        "Sunday", "Monday", "Tuesday", "Wednesday",
-        "Thursday", "Friday", "Saturday"
-    ];
-    
-    let formattedDay = days[day];
-    return `${formattedDay} ${hours}:${minutes}`;
+
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    return `${days[day]} ${hours}:${minutes}`;
+}
+
+function formatDay(timestamp) {
+    const date = new Date(timestamp * 1000);
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    return days[date.getDay()];
+}
+
+function loadDefaultWeather() {
+    fetchWeatherData("Prishtina");
 }
 
 let searchForm = document.querySelector("#search-form");
 searchForm.addEventListener("submit", search);
-
-let currentDateElement = document.querySelector("#current-date");
-let currentDate = new Date();
-currentDateElement.innerHTML = formatDate(currentDate);
-
-function loadDefaultWeather() {
-    let defaultCity = "Prishtina";
-    let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${defaultCity}&key=${apiKey}&units=metric`;
-    
-    axios.get(apiUrl)
-        .then(displayTemperature)
-        .catch(error => {
-            console.error("Error fetching default weather data:", error);
-        });
-}
-
-
-function updateForecastDays() {
-    let today = new Date();
-    let currentDay = today.getDay(); 
-
-    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-  
-    let forecastDays = [
-        ...days.slice(currentDay), 
-        ...days.slice(0, currentDay)
-    ];
-
- 
-    const forecastDayElements = document.querySelectorAll(".forecast-day .forecast-date");
-    forecastDayElements.forEach((dayElement, index) => {
-        dayElement.textContent = forecastDays[index];
-    });
-}
 
 loadDefaultWeather();
