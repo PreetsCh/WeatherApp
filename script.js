@@ -1,18 +1,20 @@
 let apiKey = "8fbf7bbacd67ca6b5t4o3f620d474a76";
 
 function displayTemperature(response) {
+
     let temperatureElement = document.querySelector("#current-temperature");
     temperatureElement.innerHTML = Math.round(response.data.temperature.current);
 
     let cityElement = document.querySelector("#current-city");
     cityElement.innerHTML = response.data.city;
 
-    let detailsElement = document.querySelector(".current-details");
+    let detailsElement = document.querySelector(".current-temperature");
     detailsElement.innerHTML = `
         ${formatDate(new Date())}, ${response.data.condition.description} <br />
         Humidity: <strong>${response.data.temperature.humidity}%</strong>, 
-        Wind: <strong>${response.data.wind.speed} km/h</strong>
+        Wind: <strong>${response.data.wind.speed}km/h</strong>
     `;
+
 
     let iconElement = document.querySelector("#icon");
     iconElement.innerHTML = `<img src="${response.data.condition.icon_url.replace('http:', 'https:')}" 
