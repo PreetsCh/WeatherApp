@@ -55,8 +55,20 @@ function fetchWeatherData(city) {
     let currentWeatherUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
     let forecastWeatherUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&units=metric`;
 
-    axios.get(currentWeatherUrl).then(displayTemperature).catch(handleError);
-    axios.get(forecastWeatherUrl).then(displayForecast).catch(handleError);
+    axios
+        .get(currentWeatherUrl)
+        .then(displayTemperature)
+        .catch(handleError);
+
+    axios
+        .get(forecastWeatherUrl)
+        .then(displayForecast)
+        .catch(handleError);
+}
+
+function handleError(error) {
+    console.error("Error fetching weather data:", error);
+    alert("Unable to fetch weather data. Please try again.");
 }
 
 function formatDate(date) {
@@ -76,16 +88,27 @@ function formatDate(date) {
 }
 
 function formatDay(timestamp) {
-    const date = new Date(timestamp * 1000);
+    const date = new Date(timestamp * 1000); // Convert UNIX timestamp to milliseconds
     const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     return days[date.getDay()];
 }
 
 function loadDefaultWeather() {
+    // Load weather for default city
     fetchWeatherData("Prishtina");
 }
 
 let searchForm = document.querySelector("#search-form");
-searchForm.addEventListener("submit", search);
+searchForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    let searchInputElement = document.querySelector("#search-input");
+    let city = searchInputElement.value.trim();
+
+    if (city) {
+        fetchWeatherData(city);
+    } else {
+        alert("Please enter a valid city name.");
+    }
+});
 
 loadDefaultWeather();
