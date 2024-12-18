@@ -1,5 +1,10 @@
 let apiKey = "8fbf7bbacd67ca6b5t4o3f620d474a76";
 
+function formatDay(timestamp) { const date = new Date(timestamp * 1000); const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]; 
+const currentDayIndex = new Date().getDay(); 
+ const forecastDayIndex = (currentDayIndex + date.getDay()) % 7; return days[forecastDayIndex]; }
+
+
 function displayTemperature(response) {
     let temperatureElement = document.querySelector("#current-temperature");
     temperatureElement.innerHTML = Math.round(response.data.temperature.current);
@@ -7,9 +12,10 @@ function displayTemperature(response) {
     let cityElement = document.querySelector("#current-city");
     cityElement.innerHTML = response.data.city;
 
-     let detailsElement = document.querySelector(".current-details");
+    let detailsElement = document.querySelector(".current-details");
+    let currentDate = new Date();
     detailsElement.innerHTML = `
-        <span id="current-date">${formatDate(new Date())}</span>, 
+        <span id="current-date">${formatDate(currentDate)}</span>, 
         <span id="weather-description">${response.data.condition.description}</span> <br />
         Humidity: <strong id="humidity">${response.data.temperature.humidity}%</strong>, 
         Wind: <strong id="wind-speed">${response.data.wind.speed} km/h</strong>
@@ -19,9 +25,6 @@ function displayTemperature(response) {
     iconElement.innerHTML = `<img src="${response.data.condition.icon_url.replace('http:', 'https:')}" 
         alt="${response.data.condition.description}" 
         width="100">`;
-
-    let currentDateElement = document.querySelector("#current-date");
-    currentDateElement.innerHTML = formatDate(new Date());
 }
 
 
