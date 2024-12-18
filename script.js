@@ -2,6 +2,7 @@ let apiKey = "8fbf7bbacd67ca6b5t4o3f620d474a76";
 
 function displayTemperature(response) {
 console.log(response.data.condition);
+console.log("Icon URL:", response.data.condition.icon_url);
 
     let temperatureElement = document.querySelector("#current-temperature");
     temperatureElement.innerHTML = Math.round(response.data.temperature.current);
@@ -16,11 +17,11 @@ console.log(response.data.condition);
         Wind: <strong>${response.data.wind.speed}km/h</strong>
     `;
 let iconElement = document.querySelector("#icon");
-iconElement.innerHTML = `<img src="${response.data.condition.icon_url}" alt="${response.data.condition.description}" width= "100">`;
-
+iconElement.innerHTML = `<img src="${response.data.condition.icon_url.replace('http:', 'https:')}" alt="${response.data.condition.description}" width="100">`;
 
     updateForecastDays();
 }
+
 
 function search(event) {
     event.preventDefault();
@@ -29,11 +30,11 @@ function search(event) {
     let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
     
       axios.get(apiUrl)
-        .then(displayTemperature)
-        .catch(error => {
-            console.error("Error fetching weather data:", error);
-            alert("Unable to fetch weather data. Please try again.");
-        });
+  .then(displayTemperature)
+  .catch(error => {
+    console.error("Error fetching weather data:", error);
+    alert("Sorry, we are unable to fetch the weather data right now. Please try again later.");
+  });
 }
 
 function formatDate(date) {
