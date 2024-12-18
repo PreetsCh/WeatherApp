@@ -18,7 +18,11 @@ function displayTemperature(response) {
     iconElement.innerHTML = `<img src="${response.data.condition.icon_url.replace('http:', 'https:')}" 
         alt="${response.data.condition.description}" 
         width="100">`;
+
+    let currentDateElement = document.querySelector("#current-date");
+    currentDateElement.innerHTML = formatDate(new Date());
 }
+
 
 function displayForecast(response) {
     let forecastElement = document.querySelector("#forecast");
